@@ -10,29 +10,30 @@ const Home: NextPage = () => {
   const mallId = "psg9";
   const clientId = "vGLDuUveMSfxygL1rnB6rP";
   const clientSecret = "SF0h2NMJDVSgHa3wkMXJnC";
-  const base64ClientKey = btoa(`${clientId}:${clientSecret}`);
-  const state = btoa("hello");
-  const redirectURI = "https://strong-zabaione-7783ec.netlify.app";
+  // const base64ClientKey = btoa(`${clientId}:${clientSecret}`);
+  const state = btoa(mallId);
+  const redirectURI =
+    "https://mglh28l872.execute-api.ap-northeast-2.amazonaws.com/auth";
   const scope =
     "mall.read_application,mall.write_application,mall.read_product,mall.write_product,mall.read_collection";
   const requestURL = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=${clientId}&state=${state}&redirect_uri=${redirectURI}&scope=${scope}`;
   const getAccessToken = async (authorizationCode: string) => {
-    const accessTokenRes = await axios.post(
-      `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
-      {
-        grant_type: `authorization_code`,
-        code: `${authorizationCode}`,
-        redirect_uri: `${redirectURI}`,
-      },
-      {
-        headers: {
-          Authorization: `Basic ${base64ClientKey}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Access-Control-Request-Headers": "authorization",
-        },
-      }
-    );
-    setAccessToken(accessTokenRes.data.access_token);
+    // const accessTokenRes = await axios.post(
+    //   `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
+    //   {
+    //     grant_type: `authorization_code`,
+    //     code: `${authorizationCode}`,
+    //     redirect_uri: `${redirectURI}`,
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Basic ${base64ClientKey}`,
+    //       "Content-Type": "application/x-www-form-urlencoded",
+    //       "Access-Control-Request-Headers": "authorization",
+    //     },
+    //   }
+    // );
+    // setAccessToken(accessTokenRes.data.access_token);
   };
   const handleLogin = () => {
     window.location.assign(requestURL);
