@@ -20,18 +20,18 @@ const Home: NextPage = () => {
     const accessTokenRes = await axios.post(
       `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
       {
+        grant_type: "authorization_code",
+        code: `${authorizationCode}`,
+        redirect_uri: `${redirectURI}`,
+      },
+      {
         headers: {
           Authorization: `Basic ${base64ClientKey}`,
           "Content-Type": "application/x-www-form-urlencoded",
-          grant_type: "authorization_code",
-          code: `${authorizationCode}`,
-          redirect_uri: `${redirectURI}`,
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
         },
       }
     );
-    setAccessToken(accessTokenRes.data);
+    setAccessToken(accessTokenRes.data.access_token);
   };
   const handleLogin = () => {
     window.location.assign(requestURL);
