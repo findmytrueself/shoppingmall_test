@@ -1,9 +1,62 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
 const Home: NextPage = () => {
+  const [accessToken, setAccessToken] = useState(null);
+  console.log(accessToken);
+  const mallId = "psg9";
+  const clientId = "vGLDuUveMSfxygL1rnB6rP";
+  const clientSecret = "SF0h2NMJDVSgHa3wkMXJnC";
+  const base64ClientKey = btoa(`${clientId}:${clientSecret}`);
+  const state = btoa("hello");
+  const redirectURI = "https://localhost:3000";
+  const scope =
+    "mall.read_application,mall.write_application,mall.read_product,mall.write_product,mall.read_collection";
+  console.log(base64ClientKey);
+  const requestURL = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=${clientId}&state=${state}&redirect_uri=${redirectURI}&scope=${scope}`;
+  const getAccessToken = async (authorizationCode: string) => {
+    const accessTokenRes = await axios.post(
+      `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
+      {
+        headers: {
+          Authorization: `Basic ${base64ClientKey}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+          grant_type: "authorization_code",
+          code: `${authorizationCode}`,
+          redirect_uri: `${redirectURI}`,
+        },
+      }
+    );
+    setAccessToken(accessTokenRes.data);
+  };
+  const handleLogin = () => {
+    window.location.assign(requestURL);
+  };
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const authorizationCode = url.searchParams.get("code");
+    if (authorizationCode) {
+      getAccessToken(authorizationCode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const code = "97h6z2xoFtgnqPbHjW3CyB";
+  // const accessToken = axios
+  //   .post(`https://${mallId}.cafe24api.com/api/v2/oauth/token`, {
+  //     headers: {
+  //       Authorization: `Basic ${base64ClientKey}`,
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //       grant_type: "authorization_code",
+  //       code: `${code}`,
+  //       redirect_uri: `${redirectURI}`,
+  //     },
+  //   })
+  //   .then((data) => console.log(data));
+  // const CAFE24_SDK = axios.get();
   return (
     <div className={styles.container}>
       <Head>
@@ -14,11 +67,11 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          <button onClick={handleLogin}>code받아오기</button>
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -59,14 +112,14 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
