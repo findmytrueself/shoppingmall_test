@@ -26,6 +26,8 @@ const Home: NextPage = () => {
           grant_type: "authorization_code",
           code: `${authorizationCode}`,
           redirect_uri: `${redirectURI}`,
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
         },
       }
     );
