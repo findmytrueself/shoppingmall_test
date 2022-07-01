@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   const clientSecret = "SF0h2NMJDVSgHa3wkMXJnC";
   const base64ClientKey = btoa(`${clientId}:${clientSecret}`);
   const state = btoa("hello");
-  const redirectURI = "https://localhost:3000";
+  const redirectURI = "https://strong-zabaione-7783ec.netlify.app";
   const scope =
     "mall.read_application,mall.write_application,mall.read_product,mall.write_product,mall.read_collection";
   console.log(base64ClientKey);
