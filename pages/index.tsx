@@ -20,12 +20,9 @@ const Home: NextPage = () => {
     const accessTokenRes = await axios.post(
       `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
       {
-        data: {
-          grant_type: "authorization_code",
-          code: `${authorizationCode}`,
-          redirect_uri: `${redirectURI}`,
-        },
-        withCredentials: true,
+        grant_type: "authorization_code",
+        code: `${authorizationCode}`,
+        redirect_uri: `${redirectURI}`,
       },
       {
         headers: {
