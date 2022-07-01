@@ -16,21 +16,21 @@ const Home: NextPage = () => {
   const scope =
     "mall.read_application,mall.write_application,mall.read_product,mall.write_product,mall.read_collection";
   const requestURL = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=${clientId}&state=${state}&redirect_uri=${redirectURI}&scope=${scope}`;
-  // const getAccessToken = async (authorizationCode: string) => {
-  //   const accessTokenRes = await axios.post(
-  //     `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
-  //     {
-  //       headers: {
-  //         Authorization: `Basic ${base64ClientKey}`,
-  //         "Content-Type": "application/x-www-form-urlencoded",
-  //         grant_type: "authorization_code",
-  //         code: `${authorizationCode}`,
-  //         redirect_uri: `${redirectURI}`,
-  //       },
-  //     }
-  //   );
-  //   setAccessToken(accessTokenRes.data);
-  // };
+  const getAccessToken = async (authorizationCode: string) => {
+    const accessTokenRes = await axios.post(
+      `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
+      {
+        headers: {
+          Authorization: `Basic ${base64ClientKey}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+          grant_type: "authorization_code",
+          code: `${authorizationCode}`,
+          redirect_uri: `${redirectURI}`,
+        },
+      }
+    );
+    setAccessToken(accessTokenRes.data);
+  };
   const handleLogin = () => {
     window.location.assign(requestURL);
   };
@@ -38,9 +38,9 @@ const Home: NextPage = () => {
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get("code");
     console.log(authorizationCode);
-    // if (authorizationCode) {
-    //   getAccessToken(authorizationCode);
-    // }
+    if (authorizationCode) {
+      getAccessToken(authorizationCode);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
