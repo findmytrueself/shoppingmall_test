@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   console.log(accessToken);
   const mallId = "psg9";
   const clientId = "vGLDuUveMSfxygL1rnB6rP";
-  const clientSecret = "SF0h2NMJDVSgHa3wkMXJnC";
+  // const clientSecret = "SF0h2NMJDVSgHa3wkMXJnC";
   // const base64ClientKey = btoa(`${clientId}:${clientSecret}`);
   const state = btoa(mallId);
   const redirectURI =
@@ -35,18 +35,6 @@ const Home: NextPage = () => {
     // );
     // setAccessToken(accessTokenRes.data.access_token);
   };
-  const handleLogin = () => {
-    window.location.assign(requestURL);
-  };
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const authorizationCode = url.searchParams.get("code");
-    console.log(authorizationCode);
-    if (authorizationCode) {
-      getAccessToken(authorizationCode);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // const code = "97h6z2xoFtgnqPbHjW3CyB";
   // const accessToken = axios
@@ -71,7 +59,9 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <button onClick={handleLogin}>code받아오기</button>
+          <a href={requestURL} target="_blank" rel="noreferrer">
+            Auth
+          </a>
         </h1>
 
         <p className={styles.description}>
