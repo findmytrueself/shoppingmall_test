@@ -28,6 +28,7 @@ const Home: NextPage = () => {
         headers: {
           Authorization: `Basic ${base64ClientKey}`,
           "Content-Type": "application/x-www-form-urlencoded",
+          "Access-Control-Request-Headers": "authorization",
         },
       }
     );
